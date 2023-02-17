@@ -1,14 +1,17 @@
 package koza.dev.traveltogbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.xml.bind.Locatable;
+import jdk.javadoc.doclet.Taglet;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.xml.stream.Location;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -18,25 +21,17 @@ import java.util.List;
 @Data
 @ToString()
 
-public class TravelPost {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long id;
+public class TravelPost extends BaseEntity{
+
     private String description;
     @Column(name="urls")
     @ElementCollection(targetClass=String.class)
     private List<String> imageURLs;
     @CreationTimestamp
-    private Date creationDate;
-    @Column(name="properties")
+    private LocalDate creationDate;
+    @Column(name="ratings")
     @ElementCollection(targetClass=Double.class)
-    private List<Double> properties;
-    private String location;
-
-
-
-
+    private List<Double> ratings;
 
 
 }

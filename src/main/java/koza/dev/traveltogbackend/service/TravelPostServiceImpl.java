@@ -16,8 +16,7 @@ public class TravelPostServiceImpl {
         TravelPost post = TravelPost.builder()
                 .imageURLs(request.getImageURLs())
                 .description(request.getDescription())
-                .location(request.getLocation())
-                .properties(request.getProperties())
+                .ratings(request.getRatings())
                 .build();
         postRepository.save(post);
         return post;
