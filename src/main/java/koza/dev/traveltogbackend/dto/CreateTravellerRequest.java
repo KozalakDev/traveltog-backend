@@ -1,0 +1,13 @@
+package koza.dev.traveltogbackend.dto;
+
+import lombok.Getter;
+
+@Getter
+public class CreateTravellerRequest {
+    private String username;
+    private String email;
+    private String password;
+    private String profileImage;
+
+
+}
