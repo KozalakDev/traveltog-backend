@@ -3,6 +3,7 @@ package koza.dev.traveltogbackend.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -16,4 +17,5 @@ public class Traveller extends BaseEntity{
     private String email;
     private String password;
     private String profileImage;
+
 }

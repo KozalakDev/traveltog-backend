@@ -1,4 +1,4 @@
-package koza.dev.traveltogbackend.dto;
+package koza.dev.traveltogbackend.dto.requests;
 
 import lombok.Getter;
 
