@@ -4,12 +4,12 @@ import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.converter.TravellerDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
 import koza.dev.traveltogbackend.exception.AlreadyExistsException;
+import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.TravellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,22 +51,40 @@ public class TravellerServiceImpl implements TravellerService {
     }
     @Override
     public TravellerDto getTravellerById(int Id){
-        return travellerDtoConverter.convertTo(repository.findById(Id).orElseThrow(() -> new NotFoundException("Traveller is not found.")));
+        Traveller traveller = repository.findById(Id);
+        if(traveller == null){
+            throw new NotFoundException("not such find a thing");
+        }else{
+            return travellerDtoConverter.convertTo(traveller);
+
+        }
     }
 
     @Override
     public TravellerDto updateTraveller(int Id, CreateTravellerRequest request){
         TravellerDto traveller = getTravellerById(Id);
         Traveller updatedTraveller = Traveller.builder()
-                .email(request.getEmail())
+                .email(traveller.getEmail())
                 .username(request.getUsername())
                 .profileImage(request.getProfileImage())
                 .password(request.getPassword()).build();
-
+        updatedTraveller.setId(traveller.getId());
+        updatedTraveller.setPassword(updatedTraveller.getPassword());
+        updatedTraveller.setUsername(updatedTraveller.getUsername());
+        updatedTraveller.setProfileImage(updatedTraveller.getProfileImage());
         return travellerDtoConverter.convertTo(repository.save(updatedTraveller));
 
     }
+    @Override
+    public void deleteTraveller(int Id){
+        Traveller traveller = repository.findById(Id);
+        if(traveller == null){
+            throw new NotFoundException("not such find a thing");
+        }else{
+            repository.delete(traveller);
 
+        }
+    }
 
 
 

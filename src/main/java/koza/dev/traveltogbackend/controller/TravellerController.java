@@ -35,6 +35,22 @@ public class TravellerController {
         return ResponseEntity.ok(service.getAll());
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<TravellerDto> getTraveller(@PathVariable int id){
+        return ResponseEntity.ok(service.getTravellerById(id));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TravellerDto> updateTraveller(@PathVariable int id, @RequestBody CreateTravellerRequest request){
+        return ResponseEntity.ok(service.updateTraveller(id,request));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTraveller(@PathVariable int id){
+        service.deleteTraveller(id);
+    }
+
+
 }
 
 

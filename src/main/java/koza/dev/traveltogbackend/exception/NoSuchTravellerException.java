@@ -1,14 +1,14 @@
 package koza.dev.traveltogbackend.exception;
 
 
-public class NoSuchTravellerExistsException
+public class NoSuchTravellerException
         extends RuntimeException {
 
     private String message;
 
-    public NoSuchTravellerExistsException() {}
+    public NoSuchTravellerException() {}
 
-    public NoSuchTravellerExistsException(String msg)
+    public NoSuchTravellerException(String msg)
     {
         super(msg);
         this.message = msg;

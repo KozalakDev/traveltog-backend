@@ -3,7 +3,6 @@ package koza.dev.traveltogbackend.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @Entity

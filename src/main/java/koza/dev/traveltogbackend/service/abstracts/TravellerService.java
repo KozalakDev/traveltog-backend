@@ -14,4 +14,6 @@ public interface TravellerService {
     TravellerDto getTravellerById(int Id);
 
     TravellerDto updateTraveller(int Id, CreateTravellerRequest request);
+
+    void deleteTraveller(int Id);
 }
