@@ -1,4 +1,4 @@
-package koza.dev.traveltogbackend.exception;
+package koza.dev.traveltogbackend.exception.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

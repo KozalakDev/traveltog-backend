@@ -3,6 +3,7 @@ package koza.dev.traveltogbackend.service;
 import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.converter.TravellerDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
+import koza.dev.traveltogbackend.exception.AlreadyExistsException;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.TravellerService;
@@ -20,18 +21,27 @@ public class TravellerServiceImpl implements TravellerService {
     private final TravellerRepository repository;
 
     private final TravellerDtoConverter travellerDtoConverter;
-    @Override
-    public TravellerDto createTraveller(CreateTravellerRequest request){
 
-        Traveller traveller = Traveller.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .profileImage(request.getProfileImage())
-                .username(request.getUsername())
-                .build();
 
-        return travellerDtoConverter.convertTo(repository.save(traveller));
+    public Boolean existsTravellerByEmailAndUsername(String email, String username){
+        return repository.existsTravellerByEmailAndUsername(email,username);
     }
+
+    @Override
+    public TravellerDto createTraveller(CreateTravellerRequest request) {
+        if(!existsTravellerByEmailAndUsername(request.getEmail(), request.getUsername())){
+            Traveller traveller = Traveller.builder()
+                    .email(request.getEmail())
+                    .password(request.getPassword())
+                    .profileImage(request.getProfileImage())
+                    .username(request.getUsername())
+                    .build();
+            return travellerDtoConverter.convertTo(repository.save(traveller));
+        }else{
+            throw new AlreadyExistsException(request.getUsername()+" or " +request.getEmail() +" already exists");
+        }
+    }
+
     @Override
     public List<TravellerDto> getAll(){
         return repository.findAll()
