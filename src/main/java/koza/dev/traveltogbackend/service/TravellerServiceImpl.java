@@ -17,9 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TravellerServiceImpl implements TravellerService {
-
     private final TravellerRepository repository;
-
     private final TravellerDtoConverter travellerDtoConverter;
 
 
@@ -53,7 +51,7 @@ public class TravellerServiceImpl implements TravellerService {
     public TravellerDto getTravellerById(int Id){
         Traveller traveller = repository.findById(Id);
         if(traveller == null){
-            throw new NotFoundException("not such find a thing");
+            throw new NotFoundException("not such found anything");
         }else{
             return travellerDtoConverter.convertTo(traveller);
 
