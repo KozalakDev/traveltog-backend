@@ -6,6 +6,7 @@ import koza.dev.traveltogbackend.service.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,15 +22,15 @@ public class PostController {
     }
 
     @GetMapping("/get/{Id}")
-    public PostDto getPostById(@PathVariable int Id){return service.getPostById(Id);}
+    public PostDto getPostById(@PathVariable int Id) throws IOException {return service.getPostById(Id);}
 
     @GetMapping("/getAll")
     public List<PostDto> getAllPost(){return service.getPostAll();}
 
-    @PutMapping("/update/{Id}")
-    public PostDto updatePost(@PathVariable int id, @RequestBody CreatePostRequest request){
-        return service.updatePost(id,request);
-    }
+    //@PutMapping("/update/{Id}")
+    //public PostDto updatePost(@PathVariable int id, @RequestBody CreatePostRequest request){
+    //    return service.updatePost(id,request);
+    //}
 
     @DeleteMapping("/delete/{Id}")
     public void deletePost(@PathVariable int id){

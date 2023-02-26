@@ -1,16 +1,17 @@
 package koza.dev.traveltogbackend.service;
-
 import koza.dev.traveltogbackend.dto.PostDto;
 import koza.dev.traveltogbackend.dto.converter.PostDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreatePostRequest;
 import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Post;
+import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.PostRepository;
 import koza.dev.traveltogbackend.service.abstracts.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,9 +31,11 @@ public class PostServiceImpl implements PostService {
         return postDtoConverter.convertTo(repository.save(post));
     }
     @Override
-    public PostDto getPostById(int id){
+    public PostDto getPostById(int id) {
         Post post = repository.findById(id);
+        System.out.println(post.getRatings().entrySet());
         return postDtoConverter.convertTo(post);
+
     }
     @Override
     public List<PostDto> getPostAll(){
@@ -41,22 +44,22 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public PostDto updatePost(int Id, CreatePostRequest request){
-        PostDto post = getPostById(Id);
-        Post updatePost = Post.builder()
-                .location(request.getLocation())
-                .ratings(request.getRatings())
-                .imageURLs(request.getImageURLs())
-                .traveller(request.getTraveller())
-                .build();
-        updatePost.setId(post.getId());
-        updatePost.setLocation(updatePost.getLocation());
-        updatePost.setRatings(updatePost.getRatings());
-        updatePost.setTraveller(updatePost.getTraveller());
-        updatePost.setImageURLs(updatePost.getImageURLs());
-        return postDtoConverter.convertTo(repository.save(updatePost));
-    }
+    //@Override
+    //public PostDto updatePost(int Id, CreatePostRequest request){
+    //    PostDto post = getPostById(Id);
+    //    Post updatePost = Post.builder()
+    //            .location(request.getLocation())
+    //            .ratings(request.getRatings())
+    //            .imageURLs(request.getImageURLs())
+    //            .traveller(request.getTraveller())
+    //            .build();
+    //    updatePost.setId(post.getId());
+    //    updatePost.setLocation(updatePost.getLocation());
+    //    updatePost.setRatings(updatePost.getRatings());
+    //    updatePost.setTraveller(updatePost.getTraveller());
+    //    updatePost.setImageURLs(updatePost.getImageURLs());
+    //    return postDtoConverter.convertTo(repository.save(updatePost));
+    //}
 
     @Override
     public void deletePost(int Id){
