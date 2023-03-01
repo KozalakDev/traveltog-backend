@@ -1,9 +1,11 @@
 package koza.dev.traveltogbackend.service;
 import koza.dev.traveltogbackend.dto.PostDto;
 import koza.dev.traveltogbackend.dto.converter.PostDtoConverter;
+import koza.dev.traveltogbackend.dto.converter.PostRatingDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreatePostRequest;
 import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Post;
+import koza.dev.traveltogbackend.model.Rating;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.PostRepository;
 import koza.dev.traveltogbackend.service.abstracts.PostService;
@@ -11,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,22 +21,40 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository repository;
     private final PostDtoConverter postDtoConverter;
+    private final TravellerServiceImpl service;
+    private final PostRatingDtoConverter postRatingDtoConverter;
+
     @Override
     public PostDto createPost(CreatePostRequest request) {
+        Traveller traveller = service.findTravellerById(request.getId());
         Post post = Post.builder()
-                .location(request.getLocation())
-                .ratings(request.getRatings())
                 .imageURLs(request.getImageURLs())
-                .traveller(request.getTraveller())
+                .CreationDate(request.getCreationDate())
+                .traveller(traveller)
+
                 .build();
         return postDtoConverter.convertTo(repository.save(post));
     }
     @Override
-    public PostDto getPostById(int id) {
+    public Post findPostById(int id) {
+        return repository.findById(id);
+    }
+    @Override
+    public PostDto getPostById(int id){
         Post post = repository.findById(id);
-        System.out.println(post.getRatings().entrySet());
-        return postDtoConverter.convertTo(post);
+        List<Rating> ratings = post.getRatings();
+        ratings.stream()
+                .map(Rating::getId)
+                .collect(Collectors.toList());
 
+        return PostDto.builder()
+                .id(post.getId())
+                .ratings_id(post.getRatings().stream()
+                .map(Rating::getId)
+                .collect(Collectors.toList()))
+                .imageURLs(post.getImageURLs())
+                .creationDate(post.getCreationDate())
+                .build();
     }
     @Override
     public List<PostDto> getPostAll(){
