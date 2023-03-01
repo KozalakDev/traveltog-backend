@@ -9,6 +9,6 @@ import javax.persistence.*;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false,name = "id")
     private int id;
 }
