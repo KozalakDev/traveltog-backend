@@ -57,6 +57,16 @@ public class TravellerServiceImpl implements TravellerService {
 
         }
     }
+    @Override
+    public Traveller findTravellerById(int Id){
+        Traveller traveller = repository.findById(Id);
+        if(traveller == null){
+            throw new NotFoundException("not such found anything");
+        }else{
+            return traveller;
+
+        }
+    }
 
     @Override
     public TravellerDto updateTraveller(int Id, CreateTravellerRequest request){
