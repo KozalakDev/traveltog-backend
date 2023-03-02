@@ -12,7 +12,9 @@ import koza.dev.traveltogbackend.service.abstracts.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,8 +45,9 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById(int id){
         Post post = repository.findById(id);
         List<Rating> ratings = post.getRatings();
+        Map<String,Double> elements = new HashMap<>();
         ratings.stream()
-                .map(Rating::getId)
+                .map(Rating::getRating_value)
                 .collect(Collectors.toList());
 
         return PostDto.builder()

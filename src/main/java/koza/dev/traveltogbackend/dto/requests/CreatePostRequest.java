@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 public class CreatePostRequest {
+    //descrption
     private int id;
     private List<String> imageURLs;
     private LocalDateTime creationDate;
