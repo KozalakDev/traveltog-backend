@@ -2,6 +2,7 @@ package koza.dev.traveltogbackend.controller;
 
 import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
+import koza.dev.traveltogbackend.dto.requests.UpdateTravellerRequest;
 import koza.dev.traveltogbackend.exception.AlreadyExistsException;
 import koza.dev.traveltogbackend.exception.ErrorResponse;
 import koza.dev.traveltogbackend.service.TravellerServiceImpl;
@@ -35,19 +36,20 @@ public class TravellerController {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<TravellerDto> getTraveller(@PathVariable String UUID){
-        return ResponseEntity.ok(service.getTravellerByUUID(UUID));
+    @GetMapping("/get/{uuid}")
+    @ResponseBody
+    public ResponseEntity<TravellerDto> getTraveller(@PathVariable String uuid){
+        return ResponseEntity.ok(service.getTravellerByUUID(uuid));
     }
 
     @PutMapping("/update/{uuid}")
-    public ResponseEntity<TravellerDto> updateTraveller(@PathVariable String UUID, @RequestBody CreateTravellerRequest request){
-        return ResponseEntity.ok(service.updateTraveller(UUID,request));
+    public ResponseEntity<TravellerDto> updateTraveller(@PathVariable String uuid, @RequestBody UpdateTravellerRequest request){
+        return ResponseEntity.ok(service.updateTraveller(uuid,request));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteTraveller(@PathVariable String UUID){
-        service.deleteTraveller(UUID);
+    @DeleteMapping("/delete/{uuid}")
+    public void deleteTraveller(@PathVariable String uuid){
+        service.deleteTraveller(uuid);
     }
 
 

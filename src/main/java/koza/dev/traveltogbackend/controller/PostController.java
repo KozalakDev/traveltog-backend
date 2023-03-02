@@ -17,13 +17,7 @@ public class PostController {
 
     @PostMapping("/create")
     public PostDto createPost(@RequestBody CreatePostRequest request) {
-        try {
-            return service.createPost(request);
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
+        System.out.println(request.getUuid());
         return service.createPost(request);
     }
 
@@ -35,13 +29,13 @@ public class PostController {
     public List<PostDto> getAllPost(){return service.getPostAll();}
 
     @PutMapping("/update/{Id}")
-    public PostDto updatePost(@PathVariable int id, @RequestBody CreatePostRequest request){
-        return service.updatePost(id,request);
+    public PostDto updatePost(@PathVariable int Id, @RequestBody CreatePostRequest request){
+        return service.updatePost(Id,request);
     }
 
     @DeleteMapping("/delete/{Id}")
-    public void deletePost(@PathVariable int id){
-        service.deletePost(id);
+    public void deletePost(@PathVariable int Id){
+        service.deletePost(Id);
 
     }
 

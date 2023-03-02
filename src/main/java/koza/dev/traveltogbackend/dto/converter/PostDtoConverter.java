@@ -14,7 +14,7 @@ public class PostDtoConverter {
                 .location(from.getLocation())
                 .imageURLs(from.getImageURLs())
                 .ratings(from.getRatings())
-                .traveller_id(from.getTraveller().getId())
+                .traveller_uuid(from.getTraveller().getUUID())
                 .build();
 
     }

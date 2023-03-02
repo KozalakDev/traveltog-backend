@@ -18,7 +18,7 @@ public class PostDto {
     private Map<String,String> location;
     private List<String> imageURLs;
     private Map<String,Double> ratings;
-    private int traveller_id;
+    private String traveller_uuid;
 
 
 

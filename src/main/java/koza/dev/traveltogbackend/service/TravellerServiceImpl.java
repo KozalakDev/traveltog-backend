@@ -3,12 +3,14 @@ package koza.dev.traveltogbackend.service;
 import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.converter.TravellerDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
+import koza.dev.traveltogbackend.dto.requests.UpdateTravellerRequest;
 import koza.dev.traveltogbackend.exception.AlreadyExistsException;
 import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.TravellerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,10 +54,9 @@ public class TravellerServiceImpl implements TravellerService {
     public TravellerDto getTravellerByUUID(String UUID){
         Traveller traveller = repository.findTravellerByUUID(UUID);
         if(traveller == null){
-            throw new NotFoundException("not such found anything");
+            throw new NotFoundException("not such found traveller");
         }else{
             return travellerDtoConverter.convertTo(traveller);
-
         }
     }
 
@@ -63,35 +64,38 @@ public class TravellerServiceImpl implements TravellerService {
     public Traveller findTravellerByUUID(String UUID){
         Traveller traveller = repository.findTravellerByUUID(UUID);
         if(traveller == null){
-            throw new NotFoundException("not such found anything");
+            throw new NotFoundException("not such found traveller");
         }else{
             return traveller;
-
         }
     }
 
     @Override
-    public TravellerDto updateTraveller(String UUID, CreateTravellerRequest request){
+    @Modifying
+    public TravellerDto updateTraveller(String UUID, UpdateTravellerRequest request){
         Traveller traveller = findTravellerByUUID(UUID);
         Traveller updatedTraveller = Traveller.builder()
-                .email(traveller.getEmail())
-                .password(traveller.getPassword())
                 .username(request.getUsername())
                 .profileImage(request.getProfileImage())
-                .password(request.getPassword()).build();
-        updatedTraveller.setUUID(traveller.getUUID());
-        updatedTraveller.setPassword(updatedTraveller.getPassword());
-        updatedTraveller.setUsername(updatedTraveller.getUsername());
-        updatedTraveller.setProfileImage(updatedTraveller.getProfileImage());
-        return travellerDtoConverter.convertTo(repository.save(updatedTraveller));
+                .email(request.getEmail())
+                .build();
+        traveller.setUUID(traveller.getUUID());
+        traveller.setPassword(traveller.getPassword());
+        traveller.setUsername(updatedTraveller.getUsername());
+        traveller.setProfileImage(updatedTraveller.getProfileImage());
+        traveller.setEmail((updatedTraveller.getEmail()));
+
+        return travellerDtoConverter.convertTo(repository.save(traveller));
 
     }
+
+
 
     @Override
     public void deleteTraveller(String UUID){
         Traveller traveller = repository.findTravellerByUUID(UUID);
         if(traveller == null){
-            throw new NotFoundException("not such find a thing");
+            throw new NotFoundException("not such find a traveller");
         }else{
             repository.delete(traveller);
 

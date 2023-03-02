@@ -7,7 +7,6 @@ import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Post;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.PostRepository;
-import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class PostServiceImpl implements PostService {
     private final TravellerServiceImpl travellerService;
     @Override
     public PostDto createPost(CreatePostRequest request) {
-        Traveller traveller = travellerService.findTravellerByUUID(request.getUUID());
+        Traveller traveller = travellerService.findTravellerByUUID(request.getUuid());
         Post post = Post.builder()
                 .location(request.getLocation())
                 .ratings(request.getRatings())
@@ -35,8 +34,22 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(int id){
         Post post = repository.findById(id);
-        return postDtoConverter.convertTo(post);
+        if(post == null){
+            throw new NotFoundException("not such find a thing");
+        }else{
+            return postDtoConverter.convertTo(post);
+        }
     }
+    @Override
+    public Post findPostById(int id){
+        Post post = repository.findById(id);
+        if(post == null){
+            throw new NotFoundException("not such find a thing");
+        }else{
+            return post;
+        }
+    }
+
     @Override
     public List<PostDto> getPostAll(){
         return repository.findAll().stream()
@@ -46,17 +59,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(int Id, CreatePostRequest request){
-        PostDto post = getPostById(Id);
+        Post post = findPostById(Id);
         Post updatePost = Post.builder()
                 .location(request.getLocation())
                 .ratings(request.getRatings())
                 .imageURLs(request.getImageURLs())
                 .build();
-        updatePost.setId(post.getId());
-        updatePost.setLocation(updatePost.getLocation());
-        updatePost.setRatings(updatePost.getRatings());
-        updatePost.setImageURLs(updatePost.getImageURLs());
-        return postDtoConverter.convertTo(repository.save(updatePost));
+        post.setLocation(updatePost.getLocation());
+        post.setRatings(updatePost.getRatings());
+        post.setImageURLs(updatePost.getImageURLs());
+        return postDtoConverter.convertTo(repository.save(post));
     }
 
     @Override
