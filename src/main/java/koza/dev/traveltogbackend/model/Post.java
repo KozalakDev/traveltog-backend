@@ -35,4 +35,5 @@ public class Post extends BaseEntity {
     @JoinColumn(name="traveller_id")
     private Traveller traveller;
 
+
 }

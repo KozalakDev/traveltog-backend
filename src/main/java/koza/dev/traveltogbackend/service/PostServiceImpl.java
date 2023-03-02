@@ -18,13 +18,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-
     private final PostRepository repository;
     private final PostDtoConverter postDtoConverter;
-    private final TravellerRepository travellerRepository;
+    private final TravellerServiceImpl travellerService;
     @Override
     public PostDto createPost(CreatePostRequest request) {
-        Traveller traveller = travellerRepository.findById(request.getId());
+        Traveller traveller = travellerService.findTravellerByUUID(request.getUUID());
         Post post = Post.builder()
                 .location(request.getLocation())
                 .ratings(request.getRatings())
@@ -69,8 +68,4 @@ public class PostServiceImpl implements PostService {
             repository.delete(post);
         }
     }
-
-
-
-
 }

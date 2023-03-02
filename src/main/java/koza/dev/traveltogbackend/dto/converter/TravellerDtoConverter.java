@@ -9,7 +9,7 @@ public class TravellerDtoConverter {
 
     public TravellerDto convertTo(Traveller from){
         return TravellerDto.builder()
-                .id(from.getId())
+                .UUID(from.getUUID())
                 .email(from.getEmail())
                 .profileImage(from.getProfileImage())
                 .username(from.getUsername())

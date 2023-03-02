@@ -36,18 +36,18 @@ public class TravellerController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<TravellerDto> getTraveller(@PathVariable int id){
-        return ResponseEntity.ok(service.getTravellerById(id));
+    public ResponseEntity<TravellerDto> getTraveller(@PathVariable String UUID){
+        return ResponseEntity.ok(service.getTravellerByUUID(UUID));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<TravellerDto> updateTraveller(@PathVariable int id, @RequestBody CreateTravellerRequest request){
-        return ResponseEntity.ok(service.updateTraveller(id,request));
+    @PutMapping("/update/{uuid}")
+    public ResponseEntity<TravellerDto> updateTraveller(@PathVariable String UUID, @RequestBody CreateTravellerRequest request){
+        return ResponseEntity.ok(service.updateTraveller(UUID,request));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteTraveller(@PathVariable int id){
-        service.deleteTraveller(id);
+    public void deleteTraveller(@PathVariable String UUID){
+        service.deleteTraveller(UUID);
     }
 
 

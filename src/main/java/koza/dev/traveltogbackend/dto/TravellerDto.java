@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TravellerDto {
-    private int id;
+    private String UUID;
     private String username;
     private String email;
     private String password;

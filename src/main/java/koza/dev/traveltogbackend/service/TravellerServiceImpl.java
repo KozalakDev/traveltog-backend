@@ -20,7 +20,6 @@ public class TravellerServiceImpl implements TravellerService {
     private final TravellerRepository repository;
     private final TravellerDtoConverter travellerDtoConverter;
 
-
     public Boolean existsTravellerByEmailAndUsername(String email, String username){
         return repository.existsTravellerByEmailAndUsername(email,username);
     }
@@ -33,6 +32,7 @@ public class TravellerServiceImpl implements TravellerService {
                     .password(request.getPassword())
                     .profileImage(request.getProfileImage())
                     .username(request.getUsername())
+                    .UUID(request.getUuid())
                     .build();
             return travellerDtoConverter.convertTo(repository.save(traveller));
         }else{
@@ -47,9 +47,10 @@ public class TravellerServiceImpl implements TravellerService {
                 .map(travellerDtoConverter::convertTo)
                 .collect(Collectors.toList());
     }
+
     @Override
-    public TravellerDto getTravellerById(int Id){
-        Traveller traveller = repository.findById(Id);
+    public TravellerDto getTravellerByUUID(String UUID){
+        Traveller traveller = repository.findTravellerByUUID(UUID);
         if(traveller == null){
             throw new NotFoundException("not such found anything");
         }else{
@@ -59,23 +60,36 @@ public class TravellerServiceImpl implements TravellerService {
     }
 
     @Override
-    public TravellerDto updateTraveller(int Id, CreateTravellerRequest request){
-        TravellerDto traveller = getTravellerById(Id);
+    public Traveller findTravellerByUUID(String UUID){
+        Traveller traveller = repository.findTravellerByUUID(UUID);
+        if(traveller == null){
+            throw new NotFoundException("not such found anything");
+        }else{
+            return traveller;
+
+        }
+    }
+
+    @Override
+    public TravellerDto updateTraveller(String UUID, CreateTravellerRequest request){
+        Traveller traveller = findTravellerByUUID(UUID);
         Traveller updatedTraveller = Traveller.builder()
                 .email(traveller.getEmail())
+                .password(traveller.getPassword())
                 .username(request.getUsername())
                 .profileImage(request.getProfileImage())
                 .password(request.getPassword()).build();
-        updatedTraveller.setId(traveller.getId());
+        updatedTraveller.setUUID(traveller.getUUID());
         updatedTraveller.setPassword(updatedTraveller.getPassword());
         updatedTraveller.setUsername(updatedTraveller.getUsername());
         updatedTraveller.setProfileImage(updatedTraveller.getProfileImage());
         return travellerDtoConverter.convertTo(repository.save(updatedTraveller));
 
     }
+
     @Override
-    public void deleteTraveller(int Id){
-        Traveller traveller = repository.findById(Id);
+    public void deleteTraveller(String UUID){
+        Traveller traveller = repository.findTravellerByUUID(UUID);
         if(traveller == null){
             throw new NotFoundException("not such find a thing");
         }else{

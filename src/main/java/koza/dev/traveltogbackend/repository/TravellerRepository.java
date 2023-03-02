@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TravellerRepository extends JpaRepository<Traveller, Integer> {
     Traveller findById(int Id);
+    Traveller findTravellerByUUID(String UUID);
     Boolean existsTravellerByEmailAndUsername(String email,String username);
     Traveller findTravellerByUsernameAndEmail(String username, String email);
 }
