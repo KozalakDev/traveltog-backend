@@ -1,7 +1,7 @@
 package koza.dev.traveltogbackend.service;
+
 import koza.dev.traveltogbackend.dto.PostDto;
 import koza.dev.traveltogbackend.dto.converter.PostDtoConverter;
-import koza.dev.traveltogbackend.dto.converter.PostRatingDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreatePostRequest;
 import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Post;
@@ -26,31 +26,17 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(CreatePostRequest request) {
         Traveller traveller = travellerRepository.findById(request.getId());
         Post post = Post.builder()
+                .location(request.getLocation())
+                .ratings(request.getRatings())
                 .imageURLs(request.getImageURLs())
                 .traveller(traveller)
                 .build();
         return postDtoConverter.convertTo(repository.save(post));
     }
     @Override
-    public Post findPostById(int id) {
-        return repository.findById(id);
-    }
-    @Override
     public PostDto getPostById(int id){
         Post post = repository.findById(id);
-        List<Rating> ratings = post.getRatings();
-        ratings.stream()
-                .map(Rating::getId)
-                .collect(Collectors.toList());
-
-        return PostDto.builder()
-                .id(post.getId())
-                .ratings_id(post.getRatings().stream()
-                .map(Rating::getId)
-                .collect(Collectors.toList()))
-                .imageURLs(post.getImageURLs())
-                .creationDate(post.getCreationDate())
-                .build();
+        return postDtoConverter.convertTo(post);
     }
     @Override
     public List<PostDto> getPostAll(){
