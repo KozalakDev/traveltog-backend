@@ -5,7 +5,9 @@ import koza.dev.traveltogbackend.dto.converter.PostDtoConverter;
 import koza.dev.traveltogbackend.dto.requests.CreatePostRequest;
 import koza.dev.traveltogbackend.exception.NotFoundException;
 import koza.dev.traveltogbackend.model.Post;
+import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.PostRepository;
+import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,15 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository repository;
     private final PostDtoConverter postDtoConverter;
+    private final TravellerRepository travellerRepository;
     @Override
     public PostDto createPost(CreatePostRequest request) {
+        Traveller traveller = travellerRepository.findById(request.getId());
         Post post = Post.builder()
                 .location(request.getLocation())
                 .ratings(request.getRatings())
                 .imageURLs(request.getImageURLs())
-                .traveller(request.getTraveller())
+                .traveller(traveller)
                 .build();
         return postDtoConverter.convertTo(repository.save(post));
     }
@@ -48,12 +52,10 @@ public class PostServiceImpl implements PostService {
                 .location(request.getLocation())
                 .ratings(request.getRatings())
                 .imageURLs(request.getImageURLs())
-                .traveller(request.getTraveller())
                 .build();
         updatePost.setId(post.getId());
         updatePost.setLocation(updatePost.getLocation());
         updatePost.setRatings(updatePost.getRatings());
-        updatePost.setTraveller(updatePost.getTraveller());
         updatePost.setImageURLs(updatePost.getImageURLs());
         return postDtoConverter.convertTo(repository.save(updatePost));
     }

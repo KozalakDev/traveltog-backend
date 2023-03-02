@@ -16,9 +16,17 @@ public class PostController {
     private final PostServiceImpl service;
 
     @PostMapping("/create")
-    public PostDto createPost(@RequestBody CreatePostRequest request){
+    public PostDto createPost(@RequestBody CreatePostRequest request) {
+        try {
+            return service.createPost(request);
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
         return service.createPost(request);
     }
+
 
     @GetMapping("/get/{Id}")
     public PostDto getPostById(@PathVariable int Id){return service.getPostById(Id);}

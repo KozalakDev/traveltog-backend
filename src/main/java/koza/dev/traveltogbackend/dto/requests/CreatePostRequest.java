@@ -13,5 +13,5 @@ public class CreatePostRequest {
     private Map<String,String> location;
     private List<String> imageURLs;
     private Map<String,Double> ratings;
-    private Traveller traveller;
+    private int id;
 }
