@@ -1,15 +1,17 @@
 package koza.dev.traveltogbackend.dto.requests;
 
-import koza.dev.traveltogbackend.model.Rating;
+import koza.dev.traveltogbackend.model.Traveller;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 public class CreatePostRequest {
-    private int id;
+    private Map<String,String> location;
     private List<String> imageURLs;
-    private LocalDateTime creationDate;
+    private Map<String,Double> ratings;
+    private int id;
 }

@@ -16,21 +16,28 @@ public class PostController {
     private final PostServiceImpl service;
 
     @PostMapping("/create")
-    public PostDto createPost(@RequestBody CreatePostRequest request){
+    public PostDto createPost(@RequestBody CreatePostRequest request) {
+        try {
+            return service.createPost(request);
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
         return service.createPost(request);
     }
 
+
     @GetMapping("/get/{Id}")
-    public PostDto getPostById(@PathVariable int Id){
-        return service.getPostById(Id);}
+    public PostDto getPostById(@PathVariable int Id){return service.getPostById(Id);}
 
     @GetMapping("/getAll")
     public List<PostDto> getAllPost(){return service.getPostAll();}
 
-    //@PutMapping("/update/{Id}")
-    //public PostDto updatePost(@PathVariable int id, @RequestBody CreatePostRequest request){
-    //    return service.updatePost(id,request);
-    //}
+    @PutMapping("/update/{Id}")
+    public PostDto updatePost(@PathVariable int id, @RequestBody CreatePostRequest request){
+        return service.updatePost(id,request);
+    }
 
     @DeleteMapping("/delete/{Id}")
     public void deletePost(@PathVariable int id){
