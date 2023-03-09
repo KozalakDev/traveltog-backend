@@ -1,6 +1,7 @@
 package koza.dev.traveltogbackend.service.abstracts;
 
 import koza.dev.traveltogbackend.dto.PostDto;
+import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.requests.CreatePostRequest;
 import koza.dev.traveltogbackend.model.Post;
 
@@ -16,6 +17,7 @@ public interface PostService {
     List<PostDto> getPostAll();
 
     PostDto updatePost(int id, CreatePostRequest request);
+
 
     void deletePost(int Id);
 }

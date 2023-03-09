@@ -6,6 +6,7 @@ import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
 import koza.dev.traveltogbackend.dto.requests.UpdateTravellerRequest;
 import koza.dev.traveltogbackend.exception.AlreadyExistsException;
 import koza.dev.traveltogbackend.exception.NotFoundException;
+import koza.dev.traveltogbackend.model.Post;
 import koza.dev.traveltogbackend.model.Traveller;
 import koza.dev.traveltogbackend.repository.TravellerRepository;
 import koza.dev.traveltogbackend.service.abstracts.TravellerService;
@@ -89,6 +90,11 @@ public class TravellerServiceImpl implements TravellerService {
 
     }
 
+    @Override
+    public List<Post> getPostByUUID(String uuid) {
+
+        return null;
+    }
 
 
     @Override

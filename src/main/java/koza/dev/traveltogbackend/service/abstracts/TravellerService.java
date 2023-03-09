@@ -3,6 +3,7 @@ package koza.dev.traveltogbackend.service.abstracts;
 import koza.dev.traveltogbackend.dto.TravellerDto;
 import koza.dev.traveltogbackend.dto.requests.CreateTravellerRequest;
 import koza.dev.traveltogbackend.dto.requests.UpdateTravellerRequest;
+import koza.dev.traveltogbackend.model.Post;
 import koza.dev.traveltogbackend.model.Traveller;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface TravellerService {
     Traveller findTravellerByUUID(String UUID);
 
     TravellerDto updateTraveller(String UUID, UpdateTravellerRequest request);
+    List<Post> getPostByUUID(String uuid);
 
     void deleteTraveller(String UUID);
 }
