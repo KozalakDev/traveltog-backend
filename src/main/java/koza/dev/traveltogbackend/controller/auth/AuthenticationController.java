@@ -1,11 +1,11 @@
 package koza.dev.traveltogbackend.controller.auth;
 
+import koza.dev.traveltogbackend.exception.AlreadyExistsException;
+import koza.dev.traveltogbackend.exception.ErrorResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -19,6 +19,12 @@ public class AuthenticationController {
             @RequestBody RegisterRequest request
     ){
         return ResponseEntity.ok(authenticationService.register(request));
+    }
+    @ExceptionHandler(value = AlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleTravellerAlreadyExistsException(AlreadyExistsException ex) {
+        return new ErrorResponse(HttpStatus.CONFLICT.value(),
+                ex.getMessage());
     }
 
     @PostMapping("/authenticated")

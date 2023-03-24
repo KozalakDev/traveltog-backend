@@ -9,7 +9,6 @@ public class AlreadyExistsException extends RuntimeException {
 
     private String message;
 
-    public AlreadyExistsException() {}
 
     public AlreadyExistsException(String msg)
     {
